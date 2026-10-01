@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS projects (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  name VARCHAR(150) NOT NULL CHECK (length(trim(name)) > 0)
+);
+
+CREATE TABLE IF NOT EXISTS tasks (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  title VARCHAR(255) NOT NULL CHECK (length(trim(title)) > 0),
+  status VARCHAR(50) NOT NULL DEFAULT 'pending',
+  project_id BIGINT NOT NULL REFERENCES projects(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS tasks_project_id_idx ON tasks(project_id);
